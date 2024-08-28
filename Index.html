@@ -10,4 +10,26 @@
   <h1>Bem-vindo ao meu site!</h1>
   <!-- Conteúdo do site aqui -->
 </body>
+  from rasa.nlu.components import Component
+from rasa.nlu import registry
+
+class SimpleChatbot(Component):
+    def __init__(self):
+        self.intent_map = {
+            "greet": self.greet,
+            "goodbye": self.goodbye
+        }
+
+    def process(self, message):
+        intent = self.intent_map.get(message.intent)
+        if intent:
+            return intent(message)
+        else:
+            return {"text": "Não entendi"}
+
+    def greet(self, message):
+        return {"text": "Olá! Como posso ajudar?"}
+
+    def goodbye(self, message):
+        return {"text": "Tchau! Espero que tenha encontrado o que precisava"}
 </html>
